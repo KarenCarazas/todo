@@ -1,21 +1,76 @@
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List</title>
-</head>
-<body>
-    <header class="header">
-        <h1>To Do List</h1>
-    </header>
-    <div id="list">
-        <form id="task-form">
-            <input id="task-input" name="task" type="text" placeholder="type your task" />
-            <button type="submit">Add</button>
-        </form>
-        <div id="tasks"></div>
-    </div>
-    
+    <meta charset="utf-8" />
+    <title>DBP</title>
+	</head>
+	<body>
+    <script>
+	
+        function addTask() {
+            const li = document.createElement("li");
+            const button = document.createElement("button");
+            const input = document.createElement("input");
+			
+            button.innerHTML = "x";
+            button.setAttribute("onclick", "deletetask(this)");
+            input.setAttribute("type", "checkbox");
+            input.setAttribute("onchange", "tachar(this)");
+	
+            li.appendChild(input);
+            li.append(document.querySelector('#task').value);
+            li.appendChild(button);
+		
+            document.querySelector('#tasks').append(li);
+            document.querySelector('#task').value = '';
+			
+            return false;
+        }
+
+        function tachar(cb) {
+            if (cb.checked) {
+                const del = document.createElement("del");
+                cb_text = cb.nextSibling;
+                del.appendChild(cb_text);
+                cb.after(del);
+            } 
+			else {
+                del = cb.nextSibling;
+                text = del.firstChild;
+                del.remove();
+                cb.after(text);
+            }
+        }
+
+        function deletetask(button) {
+            li = button.parentElement;
+            li.remove();
+        }
+
+        function delall() {
+            ol = document.querySelector('#tasks');
+            while (ol.firstChild) {
+                ol.removeChild(ol.lastChild);
+            }
+        }
+	
+		
+    </script>
+
+    <p>Computer Science</p>
+    <h1>Tasks</h1>
+    <form id="new-task">
+        <input id="task" autocomplete="off" autofocus placeholder="New Task" type="text">
+        <input type="submit" onclick='addTask()'>
+    </form>
+    <br>
+    <button type='button' onclick='completeall()'>Complete All</button>
+    <button type='button' onclick='delall()'>Delete All</button>
+    <ol id="tasks">
+        <li> <input type="checkbox" onchange='tachar(this)'> Primera Tarea <button type="button" onclick='deletetask(this)'>x</button>
+        </li>
+    </ol>
 </body>
+
 </html>
